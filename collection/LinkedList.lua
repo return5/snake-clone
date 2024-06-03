@@ -15,11 +15,14 @@ end
 function LinkedList:iterateBackwardsExcludeHead(fn)
 	if self.size > 1 then
 		local temp = self.tail
-		while temp.prev do
-			fn(temp)
-			temp = temp.prev
+		local prev = temp.prev
+		while prev do
+			if  not fn(temp.item,prev.item) then return false end
+			temp = prev
+			prev = temp.prev
 		end
 	end
+	return true
 end
 
 function LinkedList:addSecondNode(node)

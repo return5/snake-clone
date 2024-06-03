@@ -1,12 +1,18 @@
-local LinkedList <const> = require('collection.LinkedList')
+local Snake = require('model.Snake')
+local Food = require('model.Food')
 
-local ll <const> = LinkedList:new()
-ll:add(1)
-ll:add(2)
---ll:add(3)
-ll:addAt(2,6)
-ll:addAt(2,5)
---ll:add(4)
---ll:add(5)
+local food <const> = {Food:new(3,3)}
+local snake <const> = Snake:new(5,6)
+snake:moveHeadUp()
+snake:grow()
+snake:moveHeadUp()
+io.write("snake collided with self: ",(snake:checkIfCollideWithSelf() and "true" or "false"),"\n")
+snake:grow()
+snake:moveHeadUp()
+snake:moveHeadLeft()
+snake:moveHeadRight()
+io.write("snake collided with self: ",(snake:checkIfCollideWithSelf() and "true" or "false"),"\n")
+snake:checkIfEatFood(food)
+--snake:print()
 
-ll:iterateBackwardsExcludeHead(function(node)io.write("node is: ",node.item,"\n")  end)
+
