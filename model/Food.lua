@@ -1,16 +1,16 @@
+local Object <const> = require('model.Object')
 local setmetatable <const> = setmetatable
 
 local Food <const> = {}
 Food.__index = Food
+setmetatable(Food,Object)
+
 
 _ENV = Food
 
-function Food:checkCollision(x,y)
-	return self.x == x and self.y == y
-end
 
 function Food:new(x,y)
-	return setmetatable({x = x, y = y},self)
+	return setmetatable(Object:new(x,y,"*"),self)
 end
 
 return Food

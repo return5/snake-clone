@@ -10,9 +10,10 @@ io.write("snake collided with self: ",(snake:checkIfCollideWithSelf() and "true"
 snake:grow()
 snake:moveHeadUp()
 snake:moveHeadLeft()
-snake:moveHeadRight()
+io.write("snake collided with food: ",(snake:checkIfEatFood(food) and "true" or "false"),"\n")
+snake:moveHeadLeft()
 io.write("snake collided with self: ",(snake:checkIfCollideWithSelf() and "true" or "false"),"\n")
-snake:checkIfEatFood(food)
---snake:print()
+io.write("snake collided with food: ",(snake:checkIfEatFood(food) and "true" or "false"),"\n")
+snake:print()
 
 
