@@ -74,7 +74,7 @@ function Snake:checkIfEatFood(food)
 	return false
 end
 
-function Snake:checkBounds()
+function Snake:checkBounds(board)
 	--TODO
 end
 

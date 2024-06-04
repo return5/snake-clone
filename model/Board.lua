@@ -1,6 +1,7 @@
 local setmetatable <const> = setmetatable
 local rand <const> = math.random
 local pairs <const> = pairs
+local remove <const> = table.remove
 
 local Board <const> = {}
 Board.__index = Board
@@ -21,16 +22,38 @@ function Board:addTile(x,y)
 	self.availableTiles[y][x] = true
 end
 
-function Board:getAvailableTile()
+function Board:setTileToFalse(x,y)
+	if self.availableTiles[y] and self.availableTiles[y][x] then
+		self.availableTiles[y][x] = false
+	end
+end
+
+function Board:addTile(x,y)
+	self:addTile(x,y)
+end
+
+local function convertMapTo2DArray(map)
 	local tiles <const> = {}
 	local yIndexes <const> = {}
-	for y,xArr in pairs(self.availableTiles) do
+	for y,xArr in pairs(map) do
 		yIndexes[#yIndexes + 1] = y
 		tiles[#tiles + 1] = {}
-		for x in pairs(xArr) do
-			tiles[#tiles][#tiles[#tiles] + 1] = x
+		for x,value in pairs(xArr) do
+			if value then
+				tiles[#tiles][#tiles[#tiles] + 1] = x
+			end
+		end
+		if #tiles[#tiles] == 0 then
+			remove(tiles)
+			remove(yIndexes)
 		end
 	end
+	return tiles, yIndexes
+end
+
+function Board:getAvailableTile()
+	local tiles <const>, yIndexes <const> = convertMapTo2DArray(self.availableTiles)
+	if #yIndexes == 0 then return -1,-1 end
 	local yIndex <const> = rand(1,#yIndexes)
 	return tiles[yIndex][rand(1,#tiles[yIndex])],yIndexes[yIndex]
 end
