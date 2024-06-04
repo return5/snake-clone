@@ -50,6 +50,7 @@ function Snake:grow()
 	local segment <const> = Segment:new(self.head.x,self.head.y,"#")
 	self.snake:addAt(2,segment)
 	self.moveBody = Snake.moveAfterGrowth
+	return true
 end
 
 function Snake:print()
@@ -69,13 +70,14 @@ end
 
 function Snake:checkIfEatFood(food)
 	for i =1,#food,1 do
-		if food[i]:checkCollision(self.head.x,self.head.y) then self:grow(); return true end
+		if food[i]:checkCollision(self.head.x,self.head.y) then return self:grow() end
 	end
 	return false
 end
 
 function Snake:checkBounds(board)
-	--TODO
+	return board:checkIfTileAvailable(self.head.x,self.head.y)
+
 end
 
 function Snake:new(x,y)

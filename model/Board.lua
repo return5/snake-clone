@@ -8,6 +8,10 @@ Board.__index = Board
 
 _ENV = Board
 
+function Board:checkIfTileAvailable(x,y)
+	return self.availableTiles[y] and self.setAvailableTiles[y][x] ~= nil
+end
+
 function Board:removeTile(x,y)
 	if self.availableTiles[y] and self.availableTiles[y][x] then
 		self.availableTiles[y][x] = nil
