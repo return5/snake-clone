@@ -74,6 +74,10 @@ function Snake:checkIfEatFood(food)
 	return false
 end
 
+function Snake:checkBounds()
+	--TODO
+end
+
 function Snake:new(x,y)
 	local head = Segment:new(x,y,">")
 	local snake = LinkedList:new()
