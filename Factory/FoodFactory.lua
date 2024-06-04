@@ -17,7 +17,7 @@ local function removeFoodIem(food)
 	end
 end
 
-local function generateFoodItems(food,head)
+local function generateFoodItems(food,board)
 	return function()
 		if rand(1,100)	> 80 then
 			local event <const> = tick:delay(removeFoodIem(food),5)
@@ -28,10 +28,10 @@ local function generateFoodItems(food,head)
 	end
 end
 
-function FoodFactory.generateFood(head)
+function FoodFactory.generateFood(board)
 	--TODO check boundary size
 	local food <const> = {}
-	tick:recur(generateFoodItems(food,head),1)
+	tick:recur(generateFoodItems(food,board),1)
 	return food
 end
 
