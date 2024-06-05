@@ -9,7 +9,7 @@ Board.__index = Board
 _ENV = Board
 
 function Board:checkIfTileAvailable(x,y)
-	return self.availableTiles[y] and self.setAvailableTiles[y][x] ~= nil
+	return self.availableTiles[y] and self.availableTiles[y][x] ~= nil
 end
 
 function Board:removeTile(x,y)
@@ -32,7 +32,7 @@ function Board:setTileToFalse(x,y)
 	end
 end
 
-function Board:addTile(x,y)
+function Board:setTileToTrue(x,y)
 	self:addTile(x,y)
 end
 

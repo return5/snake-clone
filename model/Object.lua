@@ -1,23 +1,22 @@
 local setmetatable <const> = setmetatable
-local write <const> = io.write
+local NcursesIO <const> = require('ncurses.NcurseIO')
 
 local Object <const> = {}
 Object.__index = Object
 
 _ENV = Object
 
-function Object:checkCollision(x,y)
-	return self.x == x and self.y == y
+function Object:checkCollision(obj2)
+	return self.x == obj2.x and self.y == obj2.y
 end
 
 function Object:print()
-	write("x: ",self.x," ; y:  ",self.y,"\n")
+	NcursesIO.print(self.x,self.y,self.char)
 	return true
 end
 
-
-function Object:new(x,y,char)
-	return setmetatable({x = x, y = y, char = char},self)
+function Object:new(x,y,char,color)
+	return setmetatable({x = x, y = y, char = char,color},self)
 end
 
 return Object

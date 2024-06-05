@@ -1,5 +1,6 @@
 local LinkedList <const> = require('collection.LinkedList')
 local Object <const> = require('model.Object')
+local Dirs <const> = require('consts.Dirs')
 local setmetatable <const> = setmetatable
 
 local Snake <const> = {}
@@ -25,21 +26,45 @@ end
 function Snake:moveHeadUp()
 	self:moveBody()
 	self.head.y = self.head.y - 1
+	self.dir = Dirs.UP
+	self.head.char = "^"
 end
 
 function Snake:moveHeadDown()
 	self:moveBody()
 	self.head.y = self.head.y + 1
+	self.dir = Dirss.DOWN
+	self.head.char = "v"
 end
 
 function Snake:moveHeadLeft()
 	self:moveBody()
 	self.head.x = self.head.x - 1
+	self.dir = Dirss.LEFT
+	self.head.char = "<"
 end
 
 function Snake:moveHeadRight()
 	self:moveBody()
 	self.head.x = self.head.x + 1
+	self.dir = Dirss.RIGHT
+	self.hard.char = ">"
+end
+
+local movementMap <const> = {
+	[Dirs.UP] = Snake.moveHeadUp,
+	[Dirs.DOWN] = Snake.moveHeadDown,
+	[Dirs.LEFT] = Snake.moveHeadLeft,
+	[Dirs.RIGHT] = Snake.moveHeadRight,
+	[Dirs.NONE] = function() end
+}
+
+function Snake:update()
+	movementMap[self.dir](self)
+end
+
+function Snake:move(moveDir)
+	self.dir = moveDir
 end
 
 function Snake:moveAfterGrowth()
@@ -68,23 +93,19 @@ function Snake:checkIfCollideWithSelf()
 	return not self.snake:iterateBackwardsExcludeHead(self:returnHeadCollision())
 end
 
-function Snake:checkIfEatFood(food)
-	for i =1,#food,1 do
-		if food[i]:checkCollision(self.head.x,self.head.y) then return self:grow() end
-	end
-	return false
-end
-
 function Snake:checkBounds(board)
 	return board:checkIfTileAvailable(self.head.x,self.head.y)
+end
 
+function Snake:checkCollision(obj)
+	return self.head:checkCollision(obj)
 end
 
 function Snake:new(x,y)
 	local head = Segment:new(x,y,">")
 	local snake = LinkedList:new()
 	snake:add(head)
-	return setmetatable({snake = snake,head = head,moveBody = Snake.normalMove},self)
+	return setmetatable({snake = snake,head = head,moveBody = Snake.normalMove,dir = Dirs.NONE},self)
 end
 
 return Snake

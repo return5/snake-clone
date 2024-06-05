@@ -9,8 +9,12 @@ setmetatable(Food,Object)
 
 _ENV = Food
 
-function Food:cancelTickEvent()
-	tick:remove(self.tickEvent)
+function Food:endTickEvent()
+	tick.remove(self.tickEvent)
+end
+
+function Food:eat()
+	self:endTickEvent()
 end
 
 function Food:new(x,y,tickEvent)
