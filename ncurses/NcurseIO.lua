@@ -1,5 +1,11 @@
+require('libs.ncurses.sluacurses')
+
 local Dirs <const> = require('consts.Dirs')
-local write <const> = io.write
+local mvprintw <const> = mvprintw
+local clear <const> = clear
+local refresh <const> = refresh
+local getch <const> = getch
+
 
 local NcursesIO <const> = {}
 NcursesIO.__index = NcursesIO
@@ -8,17 +14,26 @@ _ENV = NcursesIO
 
 local keysToDirsMap <const> = {
 	w = Dirs.UP,
-	s = Dirs.Down,
-	a = Dirs.left,
-	d = Dirs.right
+	s = Dirs.DOWN,
+	a = Dirs.LEFT,
+	d = Dirs.RIGHT
 }
 
+function NcursesIO.refresh()
+	refresh()
+end
+
+function NcursesIO.clear()
+	clear()
+end
+
 function NcursesIO.print(x,y,char)
-	write(x, " : ",y," : ",char,"\n")
+	mvprintw(y,x,char)
 end
 
 function NcursesIO.getCh()
-	local ch <const> = "w"
+	local ch <const> = getch()
+	mvprintw(2,2,ch)
 	return keysToDirsMap[ch]
 end
 

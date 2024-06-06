@@ -33,22 +33,22 @@ end
 function Snake:moveHeadDown()
 	self:moveBody()
 	self.head.y = self.head.y + 1
-	self.dir = Dirss.DOWN
+	self.dir = Dirs.DOWN
 	self.head.char = "v"
 end
 
 function Snake:moveHeadLeft()
 	self:moveBody()
 	self.head.x = self.head.x - 1
-	self.dir = Dirss.LEFT
+	self.dir = Dirs.LEFT
 	self.head.char = "<"
 end
 
 function Snake:moveHeadRight()
 	self:moveBody()
 	self.head.x = self.head.x + 1
-	self.dir = Dirss.RIGHT
-	self.hard.char = ">"
+	self.dir = Dirs.RIGHT
+	self.head.char = ">"
 end
 
 local movementMap <const> = {
