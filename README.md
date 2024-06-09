@@ -19,7 +19,7 @@ make
 ![screenshot2](screenshots/screenshot2.png)  
 
 ## requirements
-- [lua](www.lua.org) >= 5.4
+- [lua](https://lua.org) >= 5.4
 - [ncurses](https://invisible-island.net/ncurses/ncurses.html)
 - [gcc](https://gcc.gnu.org/)  (or you can use a different C compiler of your choice. you will need to change this in the make file)
 - ncurses compatible terminal
