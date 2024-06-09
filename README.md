@@ -21,8 +21,8 @@ make
 ## requirements
 - [lua](https://lua.org) >= 5.4
 - [ncurses](https://invisible-island.net/ncurses/ncurses.html)
-- [make](https://www.gnu.org/software/make/)
-- [gcc](https://gcc.gnu.org/)  (or you can use a different C compiler of your choice. you will need to change this in the make file)
+- [make](https://www.gnu.org/software/make/)  (or alternatively you can compile the C library manually.)
+- [gcc](https://gcc.gnu.org/)  (or you can use a different C compiler of your choice. you will need to change this in the make file.)
 - ncurses compatible terminal
 
 ## libraries used
