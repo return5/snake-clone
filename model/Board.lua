@@ -1,3 +1,4 @@
+local Ncurses <const> = require('ncurses.Ncurses')
 local setmetatable <const> = setmetatable
 local rand <const> = math.random
 local pairs <const> = pairs
@@ -66,15 +67,22 @@ local function setAvailableTiles(height,width)
 	local tiles <const> = {}
 	for i=1,height,1 do
 		tiles[i] = {}
-		for j =1,width,1 do
+		for j = 1,width,1 do
 			tiles[i][j] = true
 		end
 	end
 	return tiles
 end
 
+local function getMaxYX(height,width)
+	local maxY <const> ,maxX <const> = Ncurses.getMaxYX()
+	return (height <= maxY - 2 and height or maxY - 2),(width <= maxX - 2 and width or maxX - 2)
+
+end
+
 function Board:new(height,width)
-	return setmetatable({ height = height, width = width, availableTiles = setAvailableTiles(height,width)},self)
+	local maxHeight <const>, maxWidth <const> = getMaxYX(height,width)
+	return setmetatable({ height = maxHeight, width = maxWidth, availableTiles = setAvailableTiles(maxHeight,maxWidth)},self)
 end
 
 return Board

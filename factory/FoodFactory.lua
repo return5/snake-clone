@@ -18,28 +18,26 @@ local function removeFoodIem(food,board)
 	end
 end
 
+local function createNewFoodItem(food,board)
+	local event <const> = tick.delay(removeFoodIem(food,board),10)
+	local x <const>, y <const> = board:getAvailableTile()
+	local item <const> = Food:new(x,y,event)
+	food[#food + 1] = item
+	board:setTileToFalse(x,y)
+end
+
 local function generateFoodItems(food,board)
 	return function()
-		if rand(1,100)	> 80 then
-			local event <const> = tick.delay(removeFoodIem(food,board),5)
-			local x <const>, y <const> = board:getAvailableTile()
-			local item <const> = Food:new(x,y,event)
-			food[#food + 1] = item
-			board:setTileToFalse(x,y)
+		if rand(1,100)	> 60 then
+			createNewFoodItem(food,board)
 		end
 	end
 end
 
 function FoodFactory.generateFood(board)
 	local food <const> = {}
-	local event <const> = tick.delay(removeFoodIem(food,board),10)
-	food[3] = Food:new(5,9,event)
-	local event2 <const> = tick.delay(removeFoodIem(food,board),10)
-	food[2] = Food:new(5,6,event2)
-	local event3 <const> = tick.delay(removeFoodIem(food,board),3)
-	food[1] = Food:new(5,1,event3)
-
-	--tick.recur(generateFoodItems(food,board),1)
+	createNewFoodItem(food,board)
+	tick.recur(generateFoodItems(food,board),1)
 	return food
 end
 

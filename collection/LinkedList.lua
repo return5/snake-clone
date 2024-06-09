@@ -12,12 +12,26 @@ function Node:new(item)
 	return setmetatable({item = item},self)
 end
 
-function LinkedList:iterateBackwardsExcludeHead(fn)
+
+function LinkedList:tailFunc(fn)
+	if not self.tail then fn(self.tail.item) end
+end
+
+function LinkedList:iterate(fn)
+	local temp = self.head
+	while temp do
+		fn(temp.item)
+		temp = temp.next
+	end
+	return true
+end
+
+function LinkedList:iterateBackwardsExcludeHead(fn,arg1)
 	if self.size > 1 then
 		local temp = self.tail
 		local prev = temp.prev
-		while prev do
-			if  not fn(temp.item,prev.item) then return false end
+		while prev  do
+			if not fn(prev.item,temp.item,arg1) then return false end
 			temp = prev
 			prev = temp.prev
 		end
