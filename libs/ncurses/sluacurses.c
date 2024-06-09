@@ -48,7 +48,9 @@ static int addColorValue(lua_State *L);
 static int l_init_color(lua_State *L);
 static int l_init(lua_State *L);
 static int l_tearDown(__attribute__((unused)) lua_State * L);
-static int l_getTime(__attribute__((unused)) lua_State *L);
+static int l_getTime(lua_State *L);
+static int l_getMaxYX(lua_State *L);
+static int l_drawBorder(lua_State * L);
 
 //-------------------------------- code -------------------------------------------------------
 
@@ -88,6 +90,8 @@ int luaopen_libs_ncurses_sluacurses(lua_State *L) {
     lua_register(L,"init",l_init);
     lua_register(L,"endwin",l_tearDown);
     lua_register(L,"getTime",l_getTime);
+    lua_register(L,"getMaxYX",l_getMaxYX);
+    lua_register(L,"drawBorder",l_drawBorder);
     return 0;
 }
 
@@ -121,10 +125,11 @@ static int l_printw(lua_State *L) {
 }
 
 static int l_mvprintw(lua_State *L) {
-    l_move(L);
-    lua_remove(L,1);
-    lua_remove(L,1);
-    return l_printw(L);
+    const int y = luaL_checknumber(L,1);
+    const int x = luaL_checknumber(L,2);
+    const char *const str = luaL_checkstring(L,3);
+    mvprintw(y,x,str);
+    return 0;
 }
 
 static int l_move(lua_State *L) {
@@ -177,16 +182,17 @@ static int l_tearDown(__attribute__((unused)) lua_State * L) {
     return 0;
 }
 
-static int l_init(__attribute__((unused)) lua_State *L) {
+static int l_init(__attribute__((unused)) lua_State * L) {
     initscr();
     cbreak();
     noecho();
     nodelay(stdscr,1);
     curs_set(0);
+    refresh();
     return 0;
 }
 
-static int l_getTime(__attribute__((unused)) lua_State *L) {
+static int l_getTime(lua_State * L) {
     const struct timespec now;
     clock_gettime(CLOCK_REALTIME,&now);
     lua_pushnumber(L,now.tv_sec);
@@ -194,3 +200,20 @@ static int l_getTime(__attribute__((unused)) lua_State *L) {
     return 2;
 }
 
+static int l_getMaxYX(lua_State * L) {
+    int x,y;
+    getmaxyx(stdscr,y,x);
+    lua_pushnumber(L,y);
+    lua_pushnumber(L,x);
+    return 2;
+}
+
+static int l_drawBorder(lua_State * L){
+    const int height = luaL_checknumber(L,1);
+    const int width = luaL_checknumber(L,2);
+    mvvline(0,0,'|',height + 1);
+    mvvline(0,width,'|',height + 1);
+    mvhline(0,0,'=',width + 1);
+    mvhline(height,0,'=',width + 1);
+    return 0;
+}
